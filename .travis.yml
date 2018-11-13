@@ -6,22 +6,22 @@ before_install:
   # build test version of react project
   - docker build -t snly2386/react-test -f ./client/Dockerfile.dev ./client
 
-scripts:
+script:
   # run tests - build will fail if tests fail
   - docker run snly2386/react-test npm test -- --coverage
 
-# after_success:
-#   # build prod versions of all projects
-#   - docker build -t snly2386/multi-client ./client
-#   - docker build -t snly2386/multi-nginx ./nginx
-#   - docker build -t snly2386/multi-server ./server
-#   - docker build -t snly2386/multi-worker ./worker
+after_success:
+  # build prod versions of all projects
+  - docker build -t snly2386/multi-client ./client
+  - docker build -t snly2386/multi-nginx ./nginx
+  - docker build -t snly2386/multi-server ./server
+  - docker build -t snly2386/multi-worker ./worker
 
-#   # push all to docker hub
-#   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
-#   - docker push snly2386/multi-client
-#   - docker push snly2386/multi-nginx
-#   - docker push snly2386/multi-server
-#   - docker push snly2386/multi-worker
+  # push all to docker hub
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - docker push snly2386/multi-client
+  - docker push snly2386/multi-nginx
+  - docker push snly2386/multi-server
+  - docker push snly2386/multi-worker
 
   # tell elastic beanstalk to update from docker hub
